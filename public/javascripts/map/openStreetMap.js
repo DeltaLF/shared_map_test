@@ -15,10 +15,27 @@ function loc2str(loc) {
   return parseFloat(loc).toFixed(2);
 }
 
+function layerParser(layer) {
+  // layer is array of markers
+  return layer.map((marker) => {
+    const obj = {};
+    console.log(marker);
+    obj.latlng = marker._latlng;
+    obj.popup = marker.getPopup() ? marker.getPopup()._content : null;
+    return obj;
+  });
+}
+
 // customized layer:
 const customizedLayer = L.layerGroup([]).addTo(map);
 
 var marker = L.marker([51.5, -0.09]).addTo(customizedLayer);
+
+function createMarkerWithPopup(lat, lng, content) {
+  const marker = L.marker([lat, lng]).addTo(customizedLayer);
+  marker.bindPopup(content).openPopup();
+  return marker;
+}
 
 function onMapClick(e) {
   console.log(e, e.latlng);
@@ -29,35 +46,41 @@ function onMapClick(e) {
     .openOn(map);
 }
 
-map.on("click", onMapClick);
-
 function onMapRightClick(e) {
   // create new tag when right click
   const { lat, lng } = e.latlng;
   const input = prompt();
-  var marker = L.marker([lat, lng]).addTo(customizedLayer);
-  marker.bindPopup(input).openPopup();
+  const marker = createMarkerWithPopup(lat, lng, input);
 }
-
-map.on("contextmenu", onMapRightClick);
 
 function updatePanel() {
   // clean up then append markers info to marker-list panel
   const markerListDiv = $(".marker-list");
   markerListDiv.children().remove();
-  const markerInLayer = customizedLayer.getLayers();
-  markerInLayer.forEach((marker) => {
-    console.log(marker);
-    const { lat, lng } = marker._latlng;
-    const popContent = marker.getPopup()
-      ? marker.getPopup()._content
-      : "No popup";
-
+  const parsedLayer = layerParser(customizedLayer.getLayers());
+  parsedLayer.forEach((parsedMarker) => {
+    const { lat, lng } = parsedMarker.latlng;
+    const popContent = parsedMarker.popup;
     markerListDiv.append(
       `<p>lat:${loc2str(lat)} lng:${loc2str(lng)} content: ${popContent}</p>`
     );
   });
 }
+
+function updateLayerByData(parsedLayer) {
+  // replace current layer by input data
+  if (parsedLayer.markers) {
+    // update only when markers exist
+    customizedLayer.clearLayers();
+    console.log("updateLayerByData,", parsedLayer);
+    parsedLayer.markers.forEach(({ latlng, popup }) => {
+      createMarkerWithPopup(latlng.lat, latlng.lng, popup);
+    });
+  }
+}
+
+map.on("click", onMapClick);
+map.on("contextmenu", onMapRightClick);
 
 $(".button-clear").on("click", function (e) {
   console.log(e);
@@ -74,4 +97,9 @@ $(".button-sync").on("click", function (e) {
   // sync marker data in panel
   // use onClick to update marker because there seems no onMarkerChange event
   updatePanel();
+  const parsedLayer = {
+    markers: layerParser(customizedLayer.getLayers()),
+    type: "markers",
+  };
+  ws.send(JSON.stringify(parsedLayer));
 });
