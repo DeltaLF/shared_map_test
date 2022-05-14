@@ -17,9 +17,25 @@
     <h1>Shared Map</h1>
 
     <div class="container">
+      <div class="panel">
+        <h2>List of markers</h2>
+        <div class="marker-list">
+          <p>first marker</p>
+        </div>
+      </div>
       <div id="map"></div>
+      <div class="control">
+        <button class="button-clear">clear layer</button>
+        <button class="button-show">show layers</button>
+        <button class="button-sync">sync data</button>
+      </div>
     </div>
 
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
     <script
       src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
       integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="

@@ -6,10 +6,34 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.container .panel {
+  width: 100%;
+  border: 5px black solid;
+  padding: 20px;
+}
+
+.container .panel .marker-list {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 #map {
   width: 60%;
   height: 60vh;
+}
+
+.control {
+  margin-top: 50px;
+  width: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
 }
 /*# sourceMappingURL=map.css.map */
