@@ -31,8 +31,37 @@ const customizedLayer = L.layerGroup([]).addTo(map);
 
 var marker = L.marker([51.5, -0.09]).addTo(customizedLayer);
 
+function iconMarker(colorIndex = 0) {
+  const colors = ["#264653", "#2A9D8F", "#E9C46A", "#F4A261", "#E76F51"];
+
+  const markerHtmlStyles = `
+  background-color: ${colors[colorIndex]};
+  width: 2rem;
+  height: 2rem;
+  display: block;
+  left: -1.5rem;
+  top: -1.5rem;
+  position: relative;
+  border-radius: 5rem 5rem 0;
+  transform: rotate(45deg);
+  border: 1px solid #FFFFFF`;
+
+  const icon = L.divIcon({
+    className: "my-custom-pin",
+    iconAnchor: [0, 24],
+    labelAnchor: [-6, 0],
+    popupAnchor: [0, -36],
+    html: `<span style="${markerHtmlStyles}" />`,
+  });
+  return icon;
+}
+
 function createMarkerWithPopup(lat, lng, content) {
-  const marker = L.marker([lat, lng]).addTo(customizedLayer);
+  const randomColor = Math.floor(Math.random() * 5);
+  const customizedIcon = iconMarker(randomColor);
+  const marker = L.marker([lat, lng], { icon: customizedIcon }).addTo(
+    customizedLayer
+  );
   marker.bindPopup(content).openPopup();
   return marker;
 }
