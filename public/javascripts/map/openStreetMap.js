@@ -18,10 +18,10 @@ function loc2str(loc) {
 function layerParser(layer) {
   // layer is array of markers
   return layer.map((marker) => {
-    const obj = {};
-    console.log(marker);
-    obj.latlng = marker._latlng;
+    const obj = { ...marker._latlng };
+    //obj.latlng = marker._latlng;
     obj.popup = marker.getPopup() ? marker.getPopup()._content : null;
+    console.log("layerParser", obj);
     return obj;
   });
 }
@@ -88,7 +88,7 @@ function updatePanel() {
   markerListDiv.children().remove();
   const parsedLayer = layerParser(customizedLayer.getLayers());
   parsedLayer.forEach((parsedMarker) => {
-    const { lat, lng } = parsedMarker.latlng;
+    const { lat, lng } = parsedMarker;
     const popContent = parsedMarker.popup;
     markerListDiv.append(
       `<p>lat:${loc2str(lat)} lng:${loc2str(lng)} content: ${popContent}</p>`
@@ -102,8 +102,8 @@ function updateLayerByData(parsedLayer) {
     // update only when markers exist
     customizedLayer.clearLayers();
     console.log("updateLayerByData,", parsedLayer);
-    parsedLayer.markers.forEach(({ latlng, popup }) => {
-      createMarkerWithPopup(latlng.lat, latlng.lng, popup);
+    parsedLayer.markers.forEach(({ lat, lng, popup }) => {
+      createMarkerWithPopup(lat, lng, popup);
     });
   }
 }
