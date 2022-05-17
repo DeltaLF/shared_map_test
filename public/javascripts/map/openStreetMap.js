@@ -1,3 +1,5 @@
+const COLORS = ["#264653", "#2A9D8F", "#E9C46A", "#F4A261", "#E76F51"];
+
 var map = L.map("map", {
   // center: center,
   zoom: 17, // 0 - 18
@@ -32,10 +34,8 @@ const customizedLayer = L.layerGroup([]).addTo(map);
 var marker = L.marker([51.5, -0.09]).addTo(customizedLayer);
 
 function iconMarker(colorIndex = 0) {
-  const colors = ["#264653", "#2A9D8F", "#E9C46A", "#F4A261", "#E76F51"];
-
   const markerHtmlStyles = `
-  background-color: ${colors[colorIndex]};
+  background-color: ${COLORS[colorIndex]};
   width: 2rem;
   height: 2rem;
   display: block;
@@ -57,8 +57,8 @@ function iconMarker(colorIndex = 0) {
 }
 
 function createMarkerWithPopup(lat, lng, content) {
-  const randomColor = Math.floor(Math.random() * 5);
-  const customizedIcon = iconMarker(randomColor);
+  const selectColorIndex = $(".marker-color option:selected").val();
+  const customizedIcon = iconMarker(selectColorIndex);
   const marker = L.marker([lat, lng], { icon: customizedIcon }).addTo(
     customizedLayer
   );
@@ -131,4 +131,8 @@ $(".button-sync").on("click", function (e) {
     type: "markers",
   };
   ws.send(JSON.stringify(parsedLayer));
+});
+
+const colorSelector = $(".marker-color").on("change", (e) => {
+  colorSelector.css("background-color", COLORS[e.target.value]);
 });

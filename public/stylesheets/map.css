@@ -10,24 +10,19 @@
       flex-wrap: wrap;
 }
 
-.container .panel {
+.container .display-panel {
   width: 100%;
   border: 5px black solid;
   padding: 20px;
 }
 
-.container .panel .marker-list {
+.container .display-panel .marker-list {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
 }
 
-#map {
-  width: 60%;
-  height: 60vh;
-}
-
-.control {
+.container .control {
   margin-top: 50px;
   width: 50%;
   display: -webkit-box;
@@ -35,5 +30,38 @@
   display: flex;
   -ms-flex-pack: distribute;
       justify-content: space-around;
+}
+
+.container .control-panel {
+  position: fixed;
+  width: 200px;
+  height: 200px;
+  top: 45vh;
+  right: 5vw;
+}
+
+.container .control-panel .marker-color .option0 {
+  background-color: #264653;
+}
+
+.container .control-panel .marker-color .option1 {
+  background-color: #2A9D8F;
+}
+
+.container .control-panel .marker-color .option2 {
+  background-color: #E9C46A;
+}
+
+.container .control-panel .marker-color .option3 {
+  background-color: #F4A261;
+}
+
+.container .control-panel .marker-color .option4 {
+  background-color: #E76F51;
+}
+
+#map {
+  width: 60%;
+  height: 60vh;
 }
 /*# sourceMappingURL=map.css.map */
