@@ -23,9 +23,29 @@ function layerParser(layer) {
     const obj = { ...marker._latlng };
     //obj.latlng = marker._latlng;
     obj.popup = marker.getPopup() ? marker.getPopup()._content : null;
+    obj.color = getColorFromMarker(marker);
     console.log("layerParser", obj);
     return obj;
   });
+}
+
+function getColorFromMarker(marker) {
+  try {
+    const colorRE = marker._icon.innerHTML.match(/background-color:.*?;/);
+    if (colorRE[0].length > 18) {
+      const color = colorRE[0].slice(18, 25);
+      console.log("color:", color);
+      for (let c in COLORS) {
+        if (COLORS[c] === color) {
+          return c;
+        }
+      }
+
+      return 0;
+    }
+  } catch {
+    return 0; // default value
+  }
 }
 
 // customized layer:
@@ -56,8 +76,14 @@ function iconMarker(colorIndex = 0) {
   return icon;
 }
 
-function createMarkerWithPopup(lat, lng, content) {
-  const selectColorIndex = $(".marker-color option:selected").val();
+function createMarkerWithPopup(lat, lng, content, color = null) {
+  let selectColorIndex;
+  if (!color) {
+    selectColorIndex = $(".marker-color option:selected").val();
+  } else {
+    selectColorIndex = color;
+  }
+
   const customizedIcon = iconMarker(selectColorIndex);
   const marker = L.marker([lat, lng], { icon: customizedIcon }).addTo(
     customizedLayer
@@ -102,8 +128,8 @@ function updateLayerByData(parsedLayer) {
     // update only when markers exist
     customizedLayer.clearLayers();
     console.log("updateLayerByData,", parsedLayer);
-    parsedLayer.markers.forEach(({ lat, lng, popup }) => {
-      createMarkerWithPopup(lat, lng, popup);
+    parsedLayer.markers.forEach(({ lat, lng, popup, color }) => {
+      createMarkerWithPopup(lat, lng, popup, color);
     });
   }
 }
@@ -119,7 +145,9 @@ $(".button-clear").on("click", function (e) {
 $(".button-show").on("click", function (e) {
   // show layer in conosle
   const layers = customizedLayer.getLayers();
-  console.log(layers);
+  layers.forEach((layer) => {
+    console.log(getColorFromMarker(layer));
+  });
 });
 
 $(".button-sync").on("click", function (e) {
@@ -134,5 +162,6 @@ $(".button-sync").on("click", function (e) {
 });
 
 const colorSelector = $(".marker-color").on("change", (e) => {
+  // sync selector background color with selected value
   colorSelector.css("background-color", COLORS[e.target.value]);
 });
