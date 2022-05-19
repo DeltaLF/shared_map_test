@@ -1,4 +1,10 @@
-const COLORS = ["#264653", "#2A9D8F", "#E9C46A", "#F4A261", "#E76F51"];
+import { ws } from "./mapSocket.js";
+import {
+  isJSONObject,
+  getColorFromMarker,
+  layerParser,
+  loc2str,
+} from "./mapUtils.js";
 
 var map = L.map("map", {
   // center: center,
@@ -11,42 +17,6 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution:
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStretMap</a> contributors',
 }).addTo(map);
-
-// utils
-function loc2str(loc) {
-  return parseFloat(loc).toFixed(2);
-}
-
-function layerParser(layer) {
-  // layer is array of markers
-  return layer.map((marker) => {
-    const obj = { ...marker._latlng };
-    //obj.latlng = marker._latlng;
-    obj.popup = marker.getPopup() ? marker.getPopup()._content : null;
-    obj.color = getColorFromMarker(marker);
-    console.log("layerParser", obj);
-    return obj;
-  });
-}
-
-function getColorFromMarker(marker) {
-  try {
-    const colorRE = marker._icon.innerHTML.match(/background-color:.*?;/);
-    if (colorRE[0].length > 18) {
-      const color = colorRE[0].slice(18, 25);
-      console.log("color:", color);
-      for (let c in COLORS) {
-        if (COLORS[c] === color) {
-          return c;
-        }
-      }
-
-      return 0;
-    }
-  } catch {
-    return 0; // default value
-  }
-}
 
 // customized layer:
 const customizedLayer = L.layerGroup([]).addTo(map);
@@ -142,14 +112,6 @@ $(".button-clear").on("click", function (e) {
   customizedLayer.clearLayers();
 });
 
-$(".button-show").on("click", function (e) {
-  // show layer in conosle
-  const layers = customizedLayer.getLayers();
-  layers.forEach((layer) => {
-    console.log(getColorFromMarker(layer));
-  });
-});
-
 $(".button-sync").on("click", function (e) {
   // sync marker data in panel
   // use onClick to update marker because there seems no onMarkerChange event
@@ -161,7 +123,12 @@ $(".button-sync").on("click", function (e) {
   ws.send(JSON.stringify(parsedLayer));
 });
 
-const colorSelector = $(".marker-color").on("change", (e) => {
-  // sync selector background color with selected value
-  colorSelector.css("background-color", COLORS[e.target.value]);
-});
+ws.onmessage = ({ data }) => {
+  const jsonData = isJSONObject(data);
+  if (jsonData && jsonData.type === "markers") {
+    console.log("markers");
+    console.log(jsonData);
+    updateLayerByData(jsonData);
+    updatePanel();
+  }
+};

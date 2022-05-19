@@ -26,17 +26,16 @@
       <div id="map"></div>
       <div class="control">
         <button class="button-clear">clear layer</button>
-        <button class="button-show">show layers</button>
         <button class="button-sync">sync data</button>
-      </div>
-      <div class="control-panel">
-        <select name="marker-color" class="marker-color">
-          <option value="0" class="option0" selected>color 0</option>
-          <option value="1" class="option1">color 1</option>
-          <option value="2" class="option2">color 2</option>
-          <option value="3" class="option3">color 3</option>
-          <option value="4" class="option4">color 4</option>
-        </select>
+        <div class="control-panel">
+          <select name="marker-color" class="marker-color">
+            <option value="0" class="option0" selected>color 0</option>
+            <option value="1" class="option1">color 1</option>
+            <option value="2" class="option2">color 2</option>
+            <option value="3" class="option3">color 3</option>
+            <option value="4" class="option4">color 4</option>
+          </select>
+        </div>
       </div>
     </div>
 
@@ -50,7 +49,9 @@
       integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
       crossorigin=""
     ></script>
-    <script src="/javascripts/map/mapSocket.js"></script>
-    <script src="/javascripts/map/openStreetMap.js"></script>
+    <script src="/javascripts/global.js"></script>
+    <script type="module" src="/javascripts/main.js"></script>
+    <!-- <script src="/javascripts/map/mapSocket.js"></script>
+    <script src="/javascripts/map/openStreetMap.js"></script> -->
   </body>
 </html>

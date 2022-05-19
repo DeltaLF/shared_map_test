@@ -33,11 +33,7 @@
 }
 
 .container .control-panel {
-  position: fixed;
   width: 200px;
-  height: 200px;
-  top: 45vh;
-  right: 5vw;
 }
 
 .container .control-panel .marker-color .option0 {
@@ -45,19 +41,19 @@
 }
 
 .container .control-panel .marker-color .option1 {
-  background-color: #2A9D8F;
+  background-color: #2a9d8f;
 }
 
 .container .control-panel .marker-color .option2 {
-  background-color: #E9C46A;
+  background-color: #e9c46a;
 }
 
 .container .control-panel .marker-color .option3 {
-  background-color: #F4A261;
+  background-color: #f4a261;
 }
 
 .container .control-panel .marker-color .option4 {
-  background-color: #E76F51;
+  background-color: #e76f51;
 }
 
 #map {

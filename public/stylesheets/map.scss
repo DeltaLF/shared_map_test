@@ -1,70 +1,54 @@
 $color0: #264653;
-$color1: #2A9D8F;
-$color2: #E9C46A;
-$color3: #F4A261;
-$color4: #E76F51;
+$color1: #2a9d8f;
+$color2: #e9c46a;
+$color3: #f4a261;
+$color4: #e76f51;
 
-.container{
-    display: flex;
+.container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  .display-panel {
     width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
-
-
-    .display-panel{
-        width: 100%;
-       border: 5px black solid;
-       padding: 20px;
-        .marker-list{
-            justify-content: center;
-
-        }
+    border: 5px black solid;
+    padding: 20px;
+    .marker-list {
+      justify-content: center;
     }
-    .control{
-        margin-top: 50px;
-        width: 50%;
-        display: flex;
-        justify-content: space-around;
-     
-     }
-     .control-panel{
-         position:fixed;
-         width: 200px;
-         height: 200px;
-         top:45vh;
-         right: 5vw;
-        //  background-color: deepskyblue;
-        .marker-color{
-            // background-color: red;
-            .option0{
-                background-color: $color0;
-            }
-       
-            .option1{
-                background-color: $color1;
-            }
-            .option2{
-                background-color: $color2;
-            }
-            .option3{
-                background-color: $color3;
-            }
-            .option4{
-                background-color: $color4;
-            }
-       
+  }
+  .control {
+    margin-top: 50px;
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+  }
+  .control-panel {
+    width: 200px;
 
-        }
+    .marker-color {
+      .option0 {
+        background-color: $color0;
+      }
 
-
-     }
-     
+      .option1 {
+        background-color: $color1;
+      }
+      .option2 {
+        background-color: $color2;
+      }
+      .option3 {
+        background-color: $color3;
+      }
+      .option4 {
+        background-color: $color4;
+      }
+    }
+  }
 }
 
 #map {
-    width: 60%;
-    height: 60vh;
-
+  width: 60%;
+  height: 60vh;
 }
-
-
