@@ -26,6 +26,8 @@ $color4: #e76f51;
   }
   .control-panel {
     .marker-color {
+      background-color: $color0;
+      color: rgba(255, 255, 255, 0.798);
       .option0 {
         background-color: $color0;
       }

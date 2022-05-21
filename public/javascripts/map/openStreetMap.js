@@ -1,17 +1,12 @@
 import { ws } from "./mapSocket.js";
-import {
-  isJSONObject,
-  getColorFromMarker,
-  layerParser,
-  loc2str,
-} from "./mapUtils.js";
+import { isJSONObject, layerParser, loc2str } from "./mapUtils.js";
 
 var map = L.map("map", {
   // center: center,
   zoom: 17, // 0 - 18
   attributionControl: true, // leaflet attribution
   zoomControl: true, // - + button
-}).setView([51.505, -0.09], 13);
+}).setView([25.105497, 121.597366], 13);
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution:
@@ -21,7 +16,7 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 // customized layer:
 const customizedLayer = L.layerGroup([]).addTo(map);
 
-var marker = L.marker([51.5, -0.09]).addTo(customizedLayer);
+var marker = L.marker([25.105497, 121.597366]).addTo(customizedLayer);
 
 function iconMarker(colorIndex = 0) {
   const markerHtmlStyles = `
@@ -67,7 +62,7 @@ function onMapClick(e) {
   const { lat, lng } = e.latlng;
   L.popup()
     .setLatLng([lat, lng])
-    .setContent(`Clicked position: [${loc2str(lat)}},${loc2str(lng)}]`)
+    .setContent(`Clicked position: [${loc2str(lat)},${loc2str(lng)}]`)
     .openOn(map);
 }
 
@@ -75,7 +70,7 @@ function onMapRightClick(e) {
   // create new tag when right click
   const { lat, lng } = e.latlng;
   const input = prompt();
-  const marker = createMarkerWithPopup(lat, lng, input);
+  createMarkerWithPopup(lat, lng, input);
 }
 
 function updatePanel() {

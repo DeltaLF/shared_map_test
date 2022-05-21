@@ -32,6 +32,11 @@
       justify-content: space-around;
 }
 
+.container .control-panel .marker-color {
+  background-color: #264653;
+  color: rgba(255, 255, 255, 0.798);
+}
+
 .container .control-panel .marker-color .option0 {
   background-color: #264653;
 }
